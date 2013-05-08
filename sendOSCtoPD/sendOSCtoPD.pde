@@ -22,9 +22,8 @@ String description ="x";
 Spacebrew sb;
 
 void setup(){
-  
   size(400,400);
-  bg = loadImage("bg.jpg");
+//  bg = loadImage("bg.jpg");
 //  cp5 = new ControlP5(this);
 //  cp5.addSlider("value")
 //     .setPosition(0,50)
@@ -44,13 +43,12 @@ void setup(){
 }
 
 
-void draw(){ 
-  //background(0);
-  image(bg, 0, 0);
+void draw(){
+    background(0);
+//  image(bg, 0, 0);
   stroke(255);  
   line(200, 200, mouseX, mouseY);
-
-  angle = atan2(mouseY-200, mouseX-200);
+  
   //println(angle);
   fill(255);
   text( angle, 100, 100);
@@ -61,13 +59,24 @@ void draw(){
   
  // cp5.getController("value").setValue( value );
  
-  OscMessage myMessage = new OscMessage("/sound");
-  myMessage.add(angle);
-  oscP5.send(myMessage, myRemoteLocation); 
+  
 }
 
 void onRangeMessage( String name, int value ){
-  OscMessage myMessage = new OscMessage("/sound");
-  myMessage.add(value);
-  oscP5.send(myMessage, myRemoteLocation);
+//  OscMessage myMessage = new OscMessage("/sound");
+//  myMessage.add(value);
+//  oscP5.send(myMessage, myRemoteLocation);
+}
+
+void mouseMoved() {
+    angle = atan2(mouseY-200, mouseX-200);
+    
+    OscMessage myMessage = new OscMessage("/sound");
+    myMessage.add(angle);
+    oscP5.send(myMessage, myRemoteLocation);
+}
+
+void mousePressed() {
+  OscMessage myMessage = new OscMessage("/start");
+  oscP5.send(myMessage, myRemoteLocation); 
 }
