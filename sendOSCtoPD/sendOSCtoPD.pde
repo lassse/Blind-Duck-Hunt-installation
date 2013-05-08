@@ -1,11 +1,10 @@
 float angle = 0;
 
+PImage bg;
 
 import spacebrew.*;
 import oscP5.*;
 import netP5.*;
-
-
 import controlP5.*;
 
 ControlP5 cp5;
@@ -25,7 +24,7 @@ Spacebrew sb;
 void setup(){
   
   size(400,400);
-  background(0);  
+  bg = loadImage("bg.jpg");
 //  cp5 = new ControlP5(this);
 //  cp5.addSlider("value")
 //     .setPosition(0,50)
@@ -46,7 +45,8 @@ void setup(){
 
 
 void draw(){ 
-  background(0);
+  //background(0);
+  image(bg, 0, 0);
   stroke(255);  
   line(200, 200, mouseX, mouseY);
 
