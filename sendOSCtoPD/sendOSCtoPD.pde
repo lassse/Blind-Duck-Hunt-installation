@@ -50,7 +50,7 @@ void draw(){
   stroke(255);  
   line(200, 200, mouseX, mouseY);
 
-  angle = atan2(mouseX-200, mouseY-200) + PI;
+  angle = atan2(mouseY-200, mouseX-200);
   //println(angle);
   fill(255);
   text( angle, 100, 100);
