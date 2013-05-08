@@ -1,4 +1,6 @@
-boolean hit = false;
+float angle = 0;
+
+
 import spacebrew.*;
 import oscP5.*;
 import netP5.*;
@@ -22,17 +24,16 @@ Spacebrew sb;
 
 void setup(){
   
-  //size(displayWidth,displayHeight);
-  size(400,200);
+  size(400,400);
   background(0);  
-  cp5 = new ControlP5(this);
-  cp5.addSlider("value")
-     .setPosition(0,50)
-     .setSize(400,50)
-     .setRange(0,1024)
-     .setSliderMode(Slider.FLEXIBLE)
-
-     ;
+//  cp5 = new ControlP5(this);
+//  cp5.addSlider("value")
+//     .setPosition(0,50)
+//     .setSize(400,50)
+//     .setRange(0,1024)
+//     .setSliderMode(Slider.FLEXIBLE)
+//
+//     ;
     
   
   sb = new Spacebrew( this );
@@ -41,26 +42,28 @@ void setup(){
   
   oscP5 = new OscP5(this,12000);
   myRemoteLocation = new NetAddress("127.0.0.1",12000);
-  
-  //frameRate(1);
- 
 }
 
 
-void draw(){
-  //OscMessage myMessage = new OscMessage("/sound");
-  //myMessage.add(value);
-  //oscP5.send(myMessage, myRemoteLocation);
+void draw(){ 
+  background(0);
+  stroke(255);  
+  line(200, 200, mouseX, mouseY);
+
+  angle = atan2(mouseX-200, mouseY-200) + PI;
+  //println(angle);
+  fill(255);
+  text( angle, 100, 100);
+
+  if (angle == PI) {
+    text("PIE", 100, 150);
+  }
+  
+ // cp5.getController("value").setValue( value );
 }
 
 void onRangeMessage( String name, int value ){
-//  println("got boolean message " + name + " : " + value); 
-//  hit = value; 
-//  OscMessage myMessage = new OscMessage("/test ");
-//  myMessage.add(1);
-//  oscP5.send(myMessage, myRemoteLocation);
   OscMessage myMessage = new OscMessage("/sound");
   myMessage.add(value);
   oscP5.send(myMessage, myRemoteLocation);
-
 }
