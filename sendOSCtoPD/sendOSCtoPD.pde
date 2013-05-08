@@ -24,7 +24,7 @@ Spacebrew sb;
 
 void setup(){
   size(400,400);
-//  bg = loadImage("bg.jpg");
+  bg = loadImage("bg.jpg");
 //  cp5 = new ControlP5(this);
 //  cp5.addSlider("value")
 //     .setPosition(0,50)
@@ -47,7 +47,14 @@ void setup(){
 
 void draw(){
     background(0);
-//  image(bg, 0, 0);
+    
+    pushMatrix();
+    translate(200,-81);
+    //rotate(radians(45));
+    rotate(QUARTER_PI);
+    image(bg, 0, 0);  
+    popMatrix();
+  
   stroke(255);  
   line(200, 200, mouseX, mouseY);
   
@@ -71,7 +78,7 @@ void onRangeMessage( String name, int value ){
 }
 
 void mouseMoved() {
-    angle = atan2(mouseY-200, mouseX-200);
+    angle = atan2(mouseY-200, mouseX-200) - QUARTER_PI;
     
     OscMessage myMessage = new OscMessage("/sound");
     myMessage.add(angle);
