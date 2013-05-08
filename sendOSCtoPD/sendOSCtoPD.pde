@@ -66,7 +66,7 @@ void draw(){
     text("PIE", 100, 150);
   }
   
- // cp5.getController("value").setValue( value );
+ 
  
   
 }
