@@ -13,7 +13,8 @@ float randomValue = 0;
 int value = 0;
 
 OscP5 oscP5;
-NetAddress myRemoteLocation;
+NetAddress remote;
+NetAddress local;
 //String server="sandbox.spacebrew.cc";
 String server="danielmahal.local";
 String name="Gomakeussomesounds";
@@ -39,7 +40,8 @@ void setup(){
 //  sb.connect(server, name, description );
   
   oscP5 = new OscP5(this,12000);
-  myRemoteLocation = new NetAddress("127.0.0.1",12000);
+  local = new NetAddress("127.0.0.1",12000);
+  remote = new NetAddress("danielmahal.local",12000);
 }
 
 
@@ -73,10 +75,12 @@ void mouseMoved() {
     
     OscMessage myMessage = new OscMessage("/sound");
     myMessage.add(angle);
-    oscP5.send(myMessage, myRemoteLocation);
+    oscP5.send(myMessage, remote);
+    oscP5.send(myMessage, local);
 }
 
 void mousePressed() {
   OscMessage myMessage = new OscMessage("/start");
-  oscP5.send(myMessage, myRemoteLocation); 
+  oscP5.send(myMessage, remote);
+ oscP5.send(myMessage, local); 
 }
