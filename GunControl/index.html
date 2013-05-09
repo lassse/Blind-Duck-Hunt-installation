@@ -1,0 +1,51 @@
+<html>
+<head>
+    <title>Gyroscope</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        #plane {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
+            margin-left: -50px;
+            background: red;
+            border: 1px black solid;
+        }
+    </style>
+</head>
+<body>
+    Orientation controller
+
+    <div id="plane"></div>
+
+    <script src="vendor/sb-1.2.0.js" type="text/javascript"></script>
+    <script>
+        var plane = document.getElementById('plane');
+
+        sb = new Spacebrew.Client('danielmahal.local', 'OrientationControl');
+
+        sb.addPublish('direction', 'range');
+
+        sb.connect();
+
+        if (window.DeviceOrientationEvent) {
+            var previousDirection = null;
+
+            window.addEventListener('deviceorientation', function(e) {
+                var direction = (Math.abs(e.alpha - 180) / 180) * 1023;
+
+                plane.style.webkitTransform = "rotate(" + direction + "deg)";
+
+                if(previousDirection != direction) {
+                    sb.send('direction', 'range', direction);
+                    previousDirection = direction;
+                }
+            }, false);
+        }
+    </script>
+</body>
+</html>
