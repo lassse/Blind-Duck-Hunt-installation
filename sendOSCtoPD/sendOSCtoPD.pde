@@ -15,9 +15,9 @@ int value = 0;
 OscP5 oscP5;
 NetAddress remote;
 NetAddress local;
-//String server="sandbox.spacebrew.cc";
+
 String server="danielmahal.local";
-String name="Gomakeussomesounds";
+String name="Sound Cylinder";
 String description ="x";
 
 Spacebrew sb;
@@ -25,19 +25,17 @@ Spacebrew sb;
 void setup(){
   size(400,400);
   bg = loadImage("bg.jpg");
-//  cp5 = new ControlP5(this);
-//  cp5.addSlider("value")
-//     .setPosition(0,50)
-//     .setSize(400,50)
-//     .setRange(0,1024)
-//     .setSliderMode(Slider.FLEXIBLE)
-//
-//     ;
-    
   
-//  sb = new Spacebrew( this );
-//  sb.addSubscribe( "direction","range");
-//  sb.connect(server, name, description );
+  sb = new Spacebrew( this );
+ 
+  sb.addSubscribe("Gun angle", "range");
+  sb.addSubscribe("Gun fire", "boolean"); 
+  sb.addSubscribe("Bird angle","range");
+  sb.addPublisher("Bird trigger","boolean");
+  sb.addPublisher("Bird hit","boolean");
+  sb.addPublisher("Bird missed","boolean");
+  
+  sb.connect(server, name, description );
   
   oscP5 = new OscP5(this,12000);
   local = new NetAddress("127.0.0.1",12000);
@@ -66,8 +64,6 @@ void draw(){
     text("PIE", 100, 150);
   }
   
- 
- 
   
 }
 
