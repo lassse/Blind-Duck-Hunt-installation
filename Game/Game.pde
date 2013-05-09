@@ -1,28 +1,38 @@
 import spacebrew.*;
+import controlP5.*;
 
 String server = "danielmahal.local";
 String name = "Duck hunt";
 String description = "Game logic";
 
 Spacebrew sb;
+ControlP5 cp5;
 
-final int birdLifeSpan = 2000; 
-final float gunTolerance = 0.5;
+int birdLifeSpan = 2000; 
+float hitTolerance = 0.5;
 
 float birdAngle = 0;
 int birdDeathTime = 0;
 boolean birdAlive = false;
 
 float gunAngle = 0;
+float gunAngleOffset = 0;
 float gunMinAngle = 0;
 float gunMaxAngle = 0;
 
 int spawnTime;
-boolean gunShot = false;
+
+float gunTrailAngle = 0;
+int gunTrailTime = 0;
 
 void setup() {
     size(800, 800);
     frameRate(60.0);
+    
+    cp5 = new ControlP5(this);
+    
+    cp5.addSlider("hitTolerance").setPosition(20,20).setSize(120,30).setRange(0,1);
+    cp5.addSlider("birdLifeSpan").setPosition(20,60).setSize(120,30).setRange(0, 10000).setValue(2000);
     
     sb = new Spacebrew(this);
     
@@ -40,35 +50,21 @@ void setup() {
 }
 
 void update() {
-    gunMinAngle = gunAngle - gunTolerance;
-    gunMaxAngle = gunAngle + gunTolerance;
+    gunMinAngle = gunAngle - hitTolerance;
+    gunMaxAngle = gunAngle + hitTolerance;
         
     if(birdAlive && birdDeathTime - millis() < 0) {
         birdAlive = false;
         spawnTime = timeFromNow(random(3000, 6000));
-        println("Bird dead.");
-    }
-   
-    if(birdAlive) {
-//        println("Bird alive! Shot it!");
     }
     
     if(!birdAlive && spawnTime - millis() < 0) {
         spawnBird(random(0.0, TWO_PI));
     }
-    
-    if(spawnTime - millis() > 0) {
-//        println((spawnTime - millis()) + " until bird spawn.");
-    }
 }
 
 void draw() {
-    if(gunShot) {
-        gunShot = false;
-        background(255);
-    } else {
-        background(0);
-    }
+    background(0);
     
     update();
     
@@ -92,6 +88,8 @@ void draw() {
         popMatrix();
     }
     
+    fill(255);
+    
     int x = int(cos(gunAngle) * 200);
     int y = int(sin(gunAngle) * 200);
     
@@ -113,6 +111,16 @@ void draw() {
     text("Gun", 0, 20);
     popMatrix();
     
+    if(gunTrailTime - millis() > 0) {
+        fill(0, 0, 255, 127);
+        beginShape();
+        vertex(0, 0);
+        vertex(cos(gunTrailAngle - hitTolerance) * 1000, sin(gunTrailAngle - hitTolerance) * 1000);
+        vertex(cos(gunTrailAngle + hitTolerance) * 1000, sin(gunTrailAngle + hitTolerance) * 1000);
+        vertex(0, 0);
+        endShape();
+    }
+    
     popMatrix();
 }
 
@@ -125,7 +133,8 @@ int timeFromNow(float time) {
 }
 
 void gunFired() {
-    gunShot = true;
+    gunTrailAngle = gunAngle;
+    gunTrailTime = timeFromNow(200);
     
     if(!birdAlive) return;
     
@@ -133,6 +142,8 @@ void gunFired() {
     
     if(hit) {
         sb.send("Bird hit", true);
+        spawnTime = timeFromNow(random(3000, 6000));
+        birdAlive = false;
     } else {
         sb.send("Bird missed", true);   
     }
@@ -170,12 +181,13 @@ void mouseMoved() {
 }
 
 void mousePressed() {
-    gunFired();
+//    gunFired();
+    gunAngleOffset = gunAngle;
 }
 
 void onRangeMessage(String name, int value) {
     if(name.equals("Gun angle")) {
-        gunAngle = map(value, 0, 1023, 0, TWO_PI);
+        gunAngle = map(value, 0, 1023, 0, TWO_PI) + gunAngleOffset;
     }
 }
 
