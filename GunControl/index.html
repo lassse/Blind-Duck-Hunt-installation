@@ -1,44 +1,60 @@
 <html>
 <head>
     <title>Gyroscope</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable = no">
 
     <style>
+
+    html,body {
+        -webkit-user-select: none;
+    }
         #plane {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 100px;
-            height: 100px;
-            margin-top: -50px;
-            margin-left: -50px;
-            background: red;
-            border: 1px black solid;
+            width: 150px;
+            height: 150px;
+            margin-top: -75px;
+            margin-left: -75px;
+            background: url(error.png) no-repeat;
+            background-size: 100%;        
+            display: none;
         }
+
+
+
     </style>
 </head>
 <body>
-    Orientation controller
-
+    
     <div id="plane"></div>
-
     <script src="vendor/sb-1.2.0.js" type="text/javascript"></script>
     <script>
         var plane = document.getElementById('plane');
 
         sb = new Spacebrew.Client('danielmahal.local', 'OrientationControl');
+        //sb = new Spacebrew.Client('sandbox.spacebrew.cc', 'GunControl');
 
         sb.addPublish('direction', 'range');
+        sb.addPublish('shot', 'boolean');
 
         sb.connect();
+
+        function shot(){
+            sb.send('shot', 'boolean', true);
+            return false;
+        }
 
         if (window.DeviceOrientationEvent) {
             var previousDirection = null;
 
             window.addEventListener('deviceorientation', function(e) {
-                var direction = (Math.abs(e.alpha - 180) / 180) * 1023;
 
-                plane.style.webkitTransform = "rotate(" + direction + "deg)";
+                //var direction = ((e.alpha / 180) * 1023);
+                var direction = (Math.abs(360-e.alpha)/360) * 1023;
+                
+                //plane.style.webkitTransform = "rotate(" + direction + "deg)";
+                //plane.style.webkitTransform = "rotate(" + (360 - e.alpha ) + "deg)";
 
                 if(previousDirection != direction) {
                     sb.send('direction', 'range', direction);
@@ -46,6 +62,8 @@
                 }
             }, false);
         }
+
+        document.ontouchstart = shot;
     </script>
 </body>
 </html>
