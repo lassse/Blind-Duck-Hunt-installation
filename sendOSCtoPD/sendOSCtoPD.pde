@@ -22,40 +22,39 @@ String description ="x";
 
 Spacebrew sb;
 
-void setup(){
-  size(400,400);
+void setup() {
+  size(400, 400);
   bg = loadImage("bg.jpg");
-  
+
   sb = new Spacebrew( this );
- 
-  sb.addSubscribe("Gun angle", "range");
-  sb.addSubscribe("Gun fire", "boolean"); 
-  sb.addSubscribe("Bird angle","range");
-  sb.addPublisher("Bird trigger","boolean");
-  sb.addPublisher("Bird hit","boolean");
-  sb.addPublisher("Bird missed","boolean");
-  
+
+  sb.addSubscribe("Gun trigger", "boolean"); 
+  sb.addSubscribe("Bird angle", "range");
+  sb.addSubscribe("Bird flying", "boolean");
+  sb.addSubscribe("Bird hit", "boolean");
+  sb.addSubscribe("Bird missed", "boolean");
+
   sb.connect(server, name, description );
-  
-  oscP5 = new OscP5(this,12000);
-  local = new NetAddress("127.0.0.1",12000);
-  remote = new NetAddress("danielmahal.local",12000);
+
+  oscP5 = new OscP5(this, 12000);
+  local = new NetAddress("127.0.0.1", 12000);
+  remote = new NetAddress("danielmahal.local", 12000);
 }
 
 
-void draw(){
-    background(0);
-    
-    pushMatrix();
-    translate(200,-81);
-    //rotate(radians(45));
-    rotate(QUARTER_PI);
-    image(bg, 0, 0);  
-    popMatrix();
-  
+void draw() {
+  background(0);
+
+  pushMatrix();
+  translate(200, -81);
+  //rotate(radians(45));
+  rotate(QUARTER_PI);
+  image(bg, 0, 0);  
+  popMatrix();
+
   stroke(255);  
   line(200, 200, mouseX, mouseY);
-  
+
   //println(angle);
   fill(255);
   text( angle, 100, 100);
@@ -63,27 +62,77 @@ void draw(){
   if (angle == PI) {
     text("PIE", 100, 150);
   }
-  
-  
 }
 
-void onRangeMessage( String name, int value ){
+void onBooleanMessage(String name, boolean value) {
+  println("Got boolean message: " + name + " " + value);
+
+  if (name.equals("Gun trigger") && value ) {
+    println ("gun fired!");
+    gunTrigger();
+  }
+
+  if (name.equals("Bird flying") && value) {
+    println ("bird flying!");
+    birdFlying();
+  }
+
+  if (name.equals("Bird hit") && value) {
+    println ("bird shot!");
+    birdHit();
+  }
+
+  if (name.equals("Bird missed") && value) {
+    println ("bird missed!");
+    birdMissed();
+  }
+}
+
+void onRangeMessage( String name, int value ) {
+  println("Got range message: " + name + " " + value);
+
+  if (name.equals("Bird angle")) {
+    float angle = map (value, 0, 1024, 0, TWO_PI); 
+    birdAngle(angle);
+    println ("Bird angle!");  
+  }
+}
+
+
 //  OscMessage myMessage = new OscMessage("/sound");
 //  myMessage.add(value);
 //  oscP5.send(myMessage, myRemoteLocation);
+
+void birdAngle(float angle) {
+
+  OscMessage birdAngle = new OscMessage("/birdAngle");
+  birdAngle.add(angle);
+  sendMessage(birdAngle);
 }
 
-void mouseMoved() {
-    angle = atan2(mouseY-200, mouseX-200) - QUARTER_PI;
-    
-    OscMessage myMessage = new OscMessage("/sound");
-    myMessage.add(angle);
-    oscP5.send(myMessage, remote);
-    oscP5.send(myMessage, local);
+void birdFlying() {
+  OscMessage birdFlying = new OscMessage("/birdFlying");
+  sendMessage(birdFlying);
 }
 
-void mousePressed() {
-  OscMessage myMessage = new OscMessage("/start");
-  oscP5.send(myMessage, remote);
- oscP5.send(myMessage, local); 
+void gunTrigger() { 
+  OscMessage gunTrigger = new OscMessage("/gunTrigger");
+  sendMessage(gunTrigger);
 }
+
+void birdHit() {
+  OscMessage birdHit = new OscMessage("/birdHit");
+  sendMessage(birdHit);
+}
+
+void birdMissed() {
+  OscMessage birdMissed = new OscMessage("/birdMissed");
+  sendMessage(birdMissed);
+}
+
+
+void sendMessage(OscMessage message) {
+  oscP5.send(message, remote);
+  oscP5.send(message, local);
+}
+
