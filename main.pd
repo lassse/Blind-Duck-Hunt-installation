@@ -8,9 +8,9 @@
 #X floatatom 809 850 5 0 0 0 - - -;
 #X obj 559 956 *~;
 #X floatatom 864 665 5 0 0 0 - - -;
-#X obj 526 -93 soundfiler;
-#X obj 526 -150 openpanel;
-#X obj 526 -176 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 556 -93 soundfiler;
+#X obj 556 -150 openpanel;
+#X obj 556 -176 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 526 600 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
@@ -61,23 +61,23 @@
 #X obj 385 600 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 526 634 tabplay~ birdFlying;
-#X obj 526 -205 table birdFlying;
-#X msg 526 -121 read -resize \$1 birdFlying;
+#X obj 556 -205 table birdFlying;
+#X msg 556 -121 read -resize \$1 birdFlying;
 #X obj 524 63 routeOSC /birdFlying;
 #X obj 727 63 routeOSC /birdAngle;
-#X obj 358 -93 soundfiler;
-#X obj 358 -150 openpanel;
-#X obj 358 -176 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 388 -93 soundfiler;
+#X obj 388 -150 openpanel;
+#X obj 388 -176 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 358 -205 table birdHit;
-#X msg 358 -121 read -resize \$1 birdHit;
+#X obj 388 -205 table birdHit;
+#X msg 388 -121 read -resize \$1 birdHit;
 #X obj 385 635 tabplay~ birdHit;
-#X obj 179 -93 soundfiler;
-#X obj 179 -150 openpanel;
-#X obj 179 -176 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 209 -93 soundfiler;
+#X obj 209 -150 openpanel;
+#X obj 209 -176 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 179 -205 table gunTrigger;
-#X msg 179 -121 read -resize \$1 gunTrigger;
+#X obj 209 -205 table gunTrigger;
+#X msg 209 -121 read -resize \$1 gunTrigger;
 #X obj 230 601 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 230 65 routeOSC /gunTrigger;
@@ -88,6 +88,16 @@
 #X obj 613 975 hsl 128 15 0 10 0 0 empty empty Gain -2 -8 0 10 -262144
 -1 -1 5900 1;
 #X floatatom 609 1007 5 0 0 0 - - -;
+#X obj 14 -86 soundfiler;
+#X obj 14 -143 openpanel;
+#X obj 14 -169 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 14 -198 table ambience;
+#X msg 14 -114 read -resize \$1 ambience;
+#X obj 12 622 tabplay~ ambience;
+#X obj 15 590 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 182 857 *~ 0.2;
 #X connect 0 0 38 0;
 #X connect 0 0 13 0;
 #X connect 2 0 6 0;
@@ -159,3 +169,11 @@
 #X connect 68 0 66 1;
 #X connect 68 0 67 1;
 #X connect 68 0 69 0;
+#X connect 71 0 74 0;
+#X connect 72 0 71 0;
+#X connect 74 0 70 0;
+#X connect 75 0 77 0;
+#X connect 75 1 76 0;
+#X connect 76 0 75 0;
+#X connect 77 0 67 0;
+#X connect 77 0 66 0;
