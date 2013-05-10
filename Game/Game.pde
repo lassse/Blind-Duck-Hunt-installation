@@ -2,6 +2,7 @@ import spacebrew.*;
 import controlP5.*;
 
 String server = "danielmahal.local";
+//String server = "sandbox.spacebrew.cc";
 String name = "Duck hunt";
 String description = "Game logic";
 
@@ -26,7 +27,7 @@ float gunTrailAngle = 0;
 int gunTrailTime = 0;
 
 void setup() {
-    size(800, 800);
+    size(displayWidth, displayHeight);
     frameRate(60.0);
     
     cp5 = new ControlP5(this);
