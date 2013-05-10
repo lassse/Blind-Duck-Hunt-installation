@@ -1,9 +1,9 @@
-#N canvas 1 22 1439 833 10;
+#N canvas 1 22 1658 941 10;
 #X declare -lib mrpeach;
 #X floatatom 836 342 5 0 0 0 - - -;
 #X obj 501 1053 output~;
 #X obj 867 643 hsl 128 15 0 1 0 0 empty empty Balance 45 -8 0 10 -262144
--1 -1 7000 1;
+-1 -1 12700 1;
 #X obj 501 956 *~;
 #X floatatom 809 850 5 0 0 0 - - -;
 #X obj 559 956 *~;
@@ -48,7 +48,7 @@
 #X floatatom 866 850 5 0 0 0 - - -;
 #X floatatom 887 778 5 0 0 0 - - -;
 #X obj 887 720 vsl 15 50 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2900 1;
+-1 -1 3100 1;
 #X obj 866 814 * \$1;
 #X floatatom 728 741 5 0 0 0 - - -;
 #X obj 728 473 cos;
@@ -83,12 +83,17 @@
 #X obj 230 65 routeOSC /gunTrigger;
 #X obj 230 630 tabplay~ gunTrigger;
 #X obj 310 827 *~ 0.2;
+#X obj 557 999 *~ 5;
+#X obj 500 997 *~ 5;
+#X obj 613 975 hsl 128 15 0 10 0 0 empty empty Gain -2 -8 0 10 -262144
+-1 -1 5900 1;
+#X floatatom 609 1007 5 0 0 0 - - -;
 #X connect 0 0 38 0;
 #X connect 0 0 13 0;
 #X connect 2 0 6 0;
-#X connect 3 0 1 0;
+#X connect 3 0 67 0;
 #X connect 4 0 40 0;
-#X connect 5 0 1 1;
+#X connect 5 0 66 0;
 #X connect 6 0 19 0;
 #X connect 6 0 36 0;
 #X connect 8 0 48 0;
@@ -148,5 +153,9 @@
 #X connect 62 0 64 0;
 #X connect 63 0 62 0;
 #X connect 64 0 65 0;
-#X connect 65 0 1 0;
-#X connect 65 0 1 1;
+#X connect 65 0 67 0;
+#X connect 66 0 1 1;
+#X connect 67 0 1 0;
+#X connect 68 0 66 1;
+#X connect 68 0 67 1;
+#X connect 68 0 69 0;
