@@ -16,7 +16,8 @@ OscP5 oscP5;
 NetAddress remote;
 NetAddress local;
 
-String server="danielmahal.local";
+//String server="danielmahal.local";
+String server="spacebrew.local";
 String name="Sound Cylinder";
 String description ="x";
 
@@ -38,7 +39,7 @@ void setup() {
 
   oscP5 = new OscP5(this, 12000);
   local = new NetAddress("127.0.0.1", 12000);
-  remote = new NetAddress("danielmahal.local", 12000);
+  remote = new NetAddress("lassekorsgaard.local", 12000);
 }
 
 

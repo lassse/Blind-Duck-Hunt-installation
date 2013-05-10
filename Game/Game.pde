@@ -1,7 +1,8 @@
 import spacebrew.*;
 import controlP5.*;
 
-String server = "danielmahal.local";
+//String server = "danielmahal.local";
+String server = "spacebrew.local";
 //String server = "sandbox.spacebrew.cc";
 String name = "Duck hunt";
 String description = "Game logic";
