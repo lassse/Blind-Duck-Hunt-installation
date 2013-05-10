@@ -32,7 +32,8 @@
     <script>
         var plane = document.getElementById('plane');
 
-        sb = new Spacebrew.Client('danielmahal.local', 'OrientationControl');
+        sb = new Spacebrew.Client('spacebrew.local', 'OrientationControl');
+        //sb = new Spacebrew.Client('danielmahal.local', 'OrientationControl');
         //sb = new Spacebrew.Client('sandbox.spacebrew.cc', 'GunControl');
 
         sb.addPublish('direction', 'range');
